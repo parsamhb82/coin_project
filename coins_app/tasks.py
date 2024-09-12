@@ -2,6 +2,7 @@ from celery import shared_task
 from .models import LowerConditions, HigherConditions
 import requests
 import json
+from django.core.mail import send_mail
 @shared_task(bind= True, default_retry_delay=10)
 def check_lowers(self):
     try:
@@ -14,8 +15,14 @@ def check_lowers(self):
             data = json.loads(response.content)
             price = data['stats'][f"{src_currency}-rls"]['latest']
             if price <= condition_price:
-                lower.delete()
-                print(f"Condition met for {src_currency} with price {price}")
+                # print(f"Condition met for {src_currency} with price {price}")
+                send_mail(
+                    'subject',
+                    f"Condition met for {src_currency} with price {price}",
+                    'a06793342@gmail.com',
+                    [f'{lower.email}'],
+                    fail_silently=False
+                )
     except Exception as e:
         return self.retry(exc=e,max_retries=10)
 
@@ -33,8 +40,14 @@ def check_highers(self):
             data = json.loads(response.content)
             price = data['stats'][f"{src_currency}-rls"]['latest']
             if price >= condition_price:
-                higher.delete()
-                print(f"Condition met for {src_currency} with price {price}")
+                # print(f"Condition met for {src_currency} with price {price}")
+                send_mail(
+                    'subject',
+                    f"Condition met for {src_currency} with price {price}",
+                    'a06793342@gmail.com',
+                    [f'{higher.email}'],
+                    fail_silently=False
+                )
     except Exception as e:
         return self.retry(exc=e,max_retries=10)
 

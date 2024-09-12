@@ -143,7 +143,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'a06793342@gmail.com'
 EMAIL_HOST_PASSWORD = 'shfioshdf'
 
-CELERY_BROKER_URL = 'amqp://https://amirrezacoin-qc9-t0dnl.liara.run/'
+CELERY_BROKER_URL = 'amqp://localhost'
 
 CELERY_BEAT_SCHEDULE = {
     'check_lowers':

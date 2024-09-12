@@ -22,3 +22,5 @@ def get_coins_latest_change(request, src_currency):
             return JsonResponse({'day-change' : data['stats'][f"{src_currency}-rls"]['dayChange']}, safe=False)
         return JsonResponse({'status': 'error'}, safe=False)
     return JsonResponse({'status': 'error'}, safe=False)
+
+

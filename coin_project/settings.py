@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -141,3 +142,18 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'a06793342@gmail.com'
 EMAIL_HOST_PASSWORD = 'shfioshdf'
+
+CELERY_BROKER_URL = 'amqp://localhost'
+
+CELERY_BEAT_SCHEDULE = {
+    'check_lowers':
+        {
+            'task': 'coins_app.tasks.check_lowers',
+            'schedule': timedelta(seconds=30),
+        },
+    'check_highers':
+        {
+            'task': 'coins_app.tasks.check_highers',
+            'schedule': timedelta(seconds=30),
+        }
+}
